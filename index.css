@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-style: solid;
+}
+
+body {}
+
+h1 {
+
+}
+
+.container {}
+
+.case {
+  width: 400px;
+}
+
+.screen {
+  text-align: right;
+  height: 50px;
+}
+
+.numbers {
+  width: 75%;
+  float: left;
+}
+
+.row {
+  height: 75px;
+  display: flex;
+  /* flex-direction: row-reverse; */
+}
+
+#equals {
+  float: right;
+  width: 23%;
+  height: 292px;
+  margin-right: 1%;
+  margin-top: 1%;
+}
+
+.clear {
+  clear: both;
+}
+
+.operator {
+  width: 25%;
+  margin: 1%;
+}
+
+.number {
+  width: 33%;
+  margin: 1%;
+}
