@@ -1,5 +1,6 @@
 var numbers = document.querySelectorAll(".number");
 var operators = document.querySelectorAll(".operator");
+var clear = document.querySelectorAll(".clear");
 
 //select the "previous calculation" text
 function pastCalculation() {
@@ -28,12 +29,41 @@ function format(num) {
   return value;
 }
 
-printOutput(94692985);
-printHistory(1234);
-
 //JS needs numbers to NOT have commas to work with
 function reverseNumberFormat(num) {
   return Number(num.replace(/,/g, ''));
 }
 
-alert(reverseNumberFormat(getOutput()));
+//click event listener for operators
+for (let i = 0; i < operators.length; i++) {
+  operators[i].addEventListener('click',function(){
+    alert("The operator clicked is " + this.id);
+  })
+}
+
+//click event listener for numbers
+for (let i = 0; i < numbers.length; i++) {
+  numbers[i].addEventListener('click', function(){
+    var output = reverseNumberFormat(getOutput());
+    if (output !== NaN) {
+      output += this.innerText;
+      printOutput(output);
+    }
+  })
+}
+
+//click event listener for clearing
+for (let i = 0; i < clear.length; i++) {
+  clear[i].addEventListener('click',function(){
+    if (this.id == "clear") {
+      printHistory("");
+      printOutput("");
+    } if (this.id == "delete") {
+      var output = reverseNumberFormat(getOutput()).toString();
+      if (output) {
+        output = output.substr(0, output.length-1);
+        printOutput(output);
+      }
+    }
+  })
+}
