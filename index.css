@@ -38,14 +38,14 @@
   font-family: 'Quantico', sans-serif;
 }
 
-.previous-calc {
+#previous-calc {
 font-size: 0.75em;
 color: grey;
 padding-top: 5px;
 padding-right: 10px;
 }
 
-.current-number {
+#current-number {
   font-size: 2em;
   padding: 0 10px 0 10px;
 }
