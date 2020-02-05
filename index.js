@@ -37,7 +37,19 @@ function reverseNumberFormat(num) {
 //click event listener for operators
 for (let i = 0; i < operators.length; i++) {
   operators[i].addEventListener('click',function(){
-    alert("The operator clicked is " + this.id);
+    var output = reverseNumberFormat(getOutput());
+    printHistory(output);
+    if (this.id == "multiply") {
+
+    } else if (this.id == "divide") {
+
+    } else if (this.id == "add") {
+
+    } else if (this.id == "subtract") {
+
+    } else if (this.id == "equals") {
+
+    }
   })
 }
 
@@ -56,8 +68,8 @@ for (let i = 0; i < numbers.length; i++) {
 for (let i = 0; i < clear.length; i++) {
   clear[i].addEventListener('click',function(){
     if (this.id == "clear") {
-      printHistory("");
       printOutput("");
+      document.getElementById("previous-calc").innerText.display = none;
     } if (this.id == "delete") {
       var output = reverseNumberFormat(getOutput()).toString();
       if (output) {
