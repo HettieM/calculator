@@ -66,13 +66,21 @@ for (let i = 0; i < clear.length; i++) {
   })
 }
 
+//event listener for operators
 for (let i = 0; i < operators.length; i++) {
   operators[i].addEventListener('click', function() {
     var output = getOutput();
     var history = getHistory();
-
-    if (output != "") {
-      output = reverseNumberFormat(output);
+    //if we want to change the operator?
+    if (output == "" && history != "") {
+      if (isNaN(history[history.length-1])) {
+        history = history.substr(0, history.length-1);
+      }
+    }
+    //
+    if (output != "" || history != "") {
+      //if history is not empty and output is empty, the output must be set to an empty value. converted to number format only if output has a value
+      output == ""? output:reverseNumberFormat(output);
       history = history + output;
       if (this.id == "equals") {
         var result = eval(history);
