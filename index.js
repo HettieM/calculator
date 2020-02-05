@@ -71,16 +71,18 @@ for (let i = 0; i < operators.length; i++) {
   operators[i].addEventListener('click', function() {
     var output = getOutput();
     var history = getHistory();
-    //if we want to change the operator?
+
+    //if we want to change the operator? - output empty, history full
     if (output == "" && history != "") {
       if (isNaN(history[history.length-1])) {
         history = history.substr(0, history.length-1);
       }
     }
-    //
+
+    // output full, history full
     if (output != "" || history != "") {
-      //if history is not empty and output is empty, the output must be set to an empty value. converted to number format only if output has a value
-      output == ""? output:reverseNumberFormat(output);
+      //when saving a number to history that is greater than 999
+      output = output == ""? output:reverseNumberFormat(output);
       history = history + output;
       if (this.id == "equals") {
         var result = eval(history);
