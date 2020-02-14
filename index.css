@@ -30,6 +30,7 @@
   flex-direction: column;
   justify-content: space-between;
   word-wrap: break-word;
+  word-break: break-all;
   border-style: solid;
   background-color: white;
   border-color: #5d001e;

@@ -6,6 +6,8 @@ var decimalAllowed = true;
 if(decimalAllowed === true) {
   //add a decimal point
   decimalAllowed === false;
+} else {
+  //do not allow decimal to be pressed until a new number
 }
 
 
