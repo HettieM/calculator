@@ -1,6 +1,14 @@
 var numbers = document.querySelectorAll(".number");
 var operators = document.querySelectorAll(".operator");
 var clear = document.querySelectorAll(".clear");
+var decimalAllowed = true;
+
+if(decimalAllowed === true) {
+  //add a decimal point
+  decimalAllowed === false;
+}
+
+
 
 //select the "previous calculation" text
 function getHistory() {
@@ -19,21 +27,21 @@ function printHistory(num) {
 
 //text shown in output
 function printOutput(num) {
-  if (num == "") {
+  if (num == "") { //do not show 0, show blank
     document.getElementById("current-number").innerText = num;
   } else {
     document.getElementById("current-number").innerText= format(num);
   }
 }
 
-//format numbers to include commas
+//format numbers to include commas in display
 function format(num) {
   var n = Number(num);
   var value = n.toLocaleString("en");
   return value;
 }
 
-//reformat numbers to NOT include commas
+//reformat numbers to NOT include commas in JS
 function reverseNumberFormat(num) {
   return Number(num.replace(/,/g, ''));
 }
@@ -79,9 +87,9 @@ for (let i = 0; i < operators.length; i++) {
       }
     }
 
-    // output full, history full
+    // output occupied OR history occupied
     if (output != "" || history != "") {
-      //when saving a number to history that is greater than 999
+      //when saving a number to history that is greater than 999 (no ,)
       output = output == ""? output:reverseNumberFormat(output);
       history = history + output;
       if (this.id == "equals") {
@@ -95,5 +103,7 @@ for (let i = 0; i < operators.length; i++) {
         printOutput("");
       }
     }
+
+
   })
 }
