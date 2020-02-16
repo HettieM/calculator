@@ -23,7 +23,13 @@ class Calculator {
   }
 
   chooseOperation(operation) {
+    //if we want to change the operator? - output empty, history full
+    if (this.output == "" && this.history != "") {
+        this.operation = operation;
+    }
     if (this.output === "") return;
+
+    //if history is not empty we need to compute as we go along
     if (this.history !== "") {
       this.compute()
     }
