@@ -40,14 +40,14 @@
 }
 
 #previous-calc {
-font-size: 0.75em;
+font-size: 0.75rem;
 color: grey;
 padding-top: 5px;
 padding-right: 10px;
 }
 
 #current-number {
-  font-size: 2em;
+  font-size: 2rem;
   padding: 0 10px 0 10px;
 }
 
