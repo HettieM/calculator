@@ -1,111 +1,134 @@
-var numbers = document.querySelectorAll(".number");
-var operators = document.querySelectorAll(".operator");
-var clear = document.querySelectorAll(".clear");
-var decimalAllowed = true;
+class Calculator {
+  constructor(historyTextElement, outputTextElement) {
+    this.historyTextElement = historyTextElement;
+    this.outputTextElement = outputTextElement;
+    this.clear();
+  }
 
-if(decimalAllowed === true) {
-  //add a decimal point
-  decimalAllowed === false;
-} else {
-  //do not allow decimal to be pressed until a new number
-}
+  clear() {
+    this.output = "";
+    this.history = "";
+    this.operation = undefined;
+  }
 
+  delete() {
+    this.output = this.output.toString().slice(0,-1);
+  }
 
+  appendNumber(number) {
+    //only allow decimal once
+    if (number === "." && this.output.includes(".")) return;
+    //convert to string so numbers concatenate rather than adding
+    this.output = this.output.toString() + number.toString();
+  }
 
-//select the "previous calculation" text
-function getHistory() {
-  return document.getElementById("previous-calc").innerText;
-}
+  chooseOperation(operation) {
+    //if we want to change the operator? - output empty, history full
+    if (this.output == "" && this.history != "") {
+        this.operation = operation;
+    }
+    if (this.output === "") return;
 
-//select the "current operation" text
-function getOutput() {
-  return document.getElementById("current-number").innerText;
-}
+    //if history is not empty we need to compute as we go along
+    if (this.history !== "") {
+      this.compute()
+    }
+    this.operation = operation;
+    this.history = this.output;
+    this.output = "";
+  }
 
-//text shown in history
-function printHistory(num) {
-  document.getElementById("previous-calc").innerText=num;
-}
+  compute() {
+    var computation;
+    const prev = parseFloat(this.history);
+    const current = parseFloat(this.output);
+    if (isNaN(prev) || isNaN(current)) return;
+    switch (this.operation) {
+      case "+":
+        computation = prev + current;
+        break;
+      case "÷":
+        computation = prev / current;
+        break;
+      case "x":
+        computation = prev * current;
+        break;
+      case "-":
+        computation = prev - current;
+        break;
+      default:
+        return;
+    }
+    this.output = computation;
+    this.operation = undefined;
+    this.history = "";
+  }
 
-//text shown in output
-function printOutput(num) {
-  if (num == "") { //do not show 0, show blank
-    document.getElementById("current-number").innerText = num;
-  } else {
-    document.getElementById("current-number").innerText= format(num);
+  formatNumber(number) {
+    const stringNumber = number.toString();
+    const integerDigits = parseFloat(stringNumber.split('.')[0]);
+    const decimalDigits = stringNumber.split('.')[1];
+    var integerDisplay;
+    if (isNaN(integerDigits)) {
+      integerDisplay = '';
+    } else {
+      integerDisplay = integerDigits.toLocaleString('en', {
+        maximumFractionDigits: 0 })
+    }
+    if (decimalDigits != null) {
+      return integerDisplay + "." + decimalDigits;
+    } else {
+      return integerDisplay;
+    }
+  }
+
+  updateDisplay() {
+    this.outputTextElement.innerText = this.formatNumber(this.output);
+    if (this.operation != null) {
+        this.historyTextElement.innerText =  this.formatNumber(this.history.toString()) + " " + this.operation;
+    } else {
+      this.historyTextElement.innerText = '';
+    }
   }
 }
 
-//format numbers to include commas in display
-function format(num) {
-  var n = Number(num);
-  var value = n.toLocaleString("en");
-  return value;
-}
-
-//reformat numbers to NOT include commas in JS
-function reverseNumberFormat(num) {
-  return Number(num.replace(/,/g, ''));
-}
 
 
-//click event listener for numbers - print to output
-for (let i = 0; i < numbers.length; i++) {
-  numbers[i].addEventListener('click', function(){
-    var output = reverseNumberFormat(getOutput());
-    if (output !== NaN) {
-      output += this.innerText;
-      printOutput(output);
-    }
+const numberButtons = document.querySelectorAll(".number");
+const operatorButtons = document.querySelectorAll(".operator");
+const equalsButton = document.querySelector(".equals");
+const deleteButton = document.querySelector(".delete");
+const clearButton = document.querySelector(".clear");
+const historyTextElement = document.querySelector("#previous-calc");
+const outputTextElement = document.querySelector("#current-number");
+
+const calculator = new Calculator(historyTextElement, outputTextElement)
+
+numberButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    calculator.appendNumber(button.innerText);
+    calculator.updateDisplay();
   })
-}
+})
 
-//click event listener for clearing
-for (let i = 0; i < clear.length; i++) {
-  clear[i].addEventListener('click',function(){
-    if (this.id == "clear") {
-      printOutput("");
-      printHistory("");
-    } if (this.id == "delete") {
-      var output = reverseNumberFormat(getOutput()).toString();
-      if (output) {
-        output = output.substr(0, output.length-1);
-        printOutput(output);
-      }
-    }
+operatorButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    calculator.chooseOperation(button.innerText);
+    calculator.updateDisplay();
   })
-}
+})
 
-//event listener for operators
-for (let i = 0; i < operators.length; i++) {
-  operators[i].addEventListener('click', function() {
-    var output = getOutput();
-    var history = getHistory();
+equalsButton.addEventListener("click", button => {
+  calculator.compute();
+  calculator.updateDisplay();
+})
 
-    //if we want to change the operator? - output empty, history full
-    if (output == "" && history != "") {
-      if (isNaN(history[history.length-1])) {
-        history = history.substr(0, history.length-1);
-      }
-    }
+clearButton.addEventListener("click", button => {
+  calculator.clear();
+  calculator.updateDisplay();
+})
 
-    // output occupied OR history occupied
-    if (output != "" || history != "") {
-      //when saving a number to history that is greater than 999 (no ,)
-      output = output == ""? output:reverseNumberFormat(output);
-      history = history + output;
-      if (this.id == "equals") {
-        var result = eval(history);
-        printOutput(result);
-        printHistory("");
-      }
-      else {
-        history = history + this.innerText;
-        printHistory(history);
-        printOutput("");
-      }
-    }
-
-
-  })
-}
+deleteButton.addEventListener("click", button => {
+  calculator.delete();
+  calculator.updateDisplay();
+})
