@@ -23,10 +23,21 @@ class Calculator {
   }
 
   chooseOperation(operation) {
+    if (operation == "-") {
+      if (this.output == "") {
+        this.output = "-";
+        return;
+      } if (this.output == "-") {
+        this.output = "";
+        return;
+      }
+    }
+
     //if we want to change the operator? - output empty, history full
     if (this.output == "" && this.history != "") {
         this.operation = operation;
     }
+
     if (this.output === "") return;
 
     //if history is not empty we need to compute as we go along
