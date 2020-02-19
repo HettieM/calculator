@@ -94,12 +94,16 @@ class Calculator {
   }
 
   updateDisplay() {
+    if (this.output == "-") {
+      this.outputTextElement.innerText = "-";
+    } else {
     this.outputTextElement.innerText = this.formatNumber(this.output);
     if (this.operation != null) {
         this.historyTextElement.innerText =  this.formatNumber(this.history.toString()) + " " + this.operation;
     } else {
       this.historyTextElement.innerText = '';
     }
+  }
   }
 }
 
