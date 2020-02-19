@@ -97,7 +97,9 @@ class Calculator {
   updateDisplay() {
     if (this.output == "-") {
       this.outputTextElement.innerText = "-";
-      this.historyTextElement.innerText =  this.formatNumber(this.history.toString()) + " " + this.operation;
+      if (this.history != "") {
+        this.historyTextElement.innerText =  this.formatNumber(this.history.toString()) + " " + this.operation;
+      }
     } else {
     this.outputTextElement.innerText = this.formatNumber(this.output);
     if (this.operation != null) {
