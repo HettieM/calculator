@@ -23,6 +23,7 @@ class Calculator {
   }
 
   chooseOperation(operation) {
+    //allow for negative numbers
     if (operation == "-") {
       if (this.output == "") {
         this.output = "-";
@@ -33,12 +34,12 @@ class Calculator {
       }
     }
 
-    //if we want to change the operator? - output empty, history full
-    if (this.output == "" && this.history != "") {
+    //if we want to change the operator? - output empty (or neg), history full
+    if ((this.output == "" || this.output == "-") && this.history != "") {
         this.operation = operation;
     }
 
-    if (this.output === "") return;
+    if (this.output == "" || this.output == "-")  return;
 
     //if history is not empty we need to compute as we go along
     if (this.history !== "") {
@@ -96,6 +97,7 @@ class Calculator {
   updateDisplay() {
     if (this.output == "-") {
       this.outputTextElement.innerText = "-";
+      this.historyTextElement.innerText =  this.formatNumber(this.history.toString()) + " " + this.operation;
     } else {
     this.outputTextElement.innerText = this.formatNumber(this.output);
     if (this.operation != null) {
